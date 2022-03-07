@@ -9,6 +9,14 @@ const Button = (props) => {
   )
 }
 
+const Statistics =(props)=>{
+ return (
+  <p>{props.text}  {props.value}  {props.text==="positive" && " %"} </p>
+
+ )
+
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -56,16 +64,17 @@ const App = () => {
       </div>
       <div>
         <div>
-          <h1>give feedback</h1>
+          <h1>Statistics</h1>
         </div>
         <div>
           <p> good {good}  </p>
           <p> neutral {neutral}  </p>
           <p> bad  {bad}  </p>
           <br></br>
-          <p> total  {total()}  </p>
-          <p> average  {average(total())}  </p>
-          <p> positive  {positive(total())} %  </p>
+          <Statistics value={total()} text="total" />
+          <Statistics value={average(total())} text="average" /> 
+          <Statistics value={positive(total())} text="positive" />  
+          
         </div>
 
       </div>
