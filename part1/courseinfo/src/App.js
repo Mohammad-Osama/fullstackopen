@@ -1,3 +1,4 @@
+import { useState } from "react"
 const App = () => {
    // const course = 'Half Stack application development'
 
@@ -69,11 +70,20 @@ const App = () => {
       </p>)
   }
 
+  const [ counter, setCounter ] = useState(0)
+
+  setTimeout(
+    () => setCounter(counter + 1),
+    44444
+  )
+
   return (
     <div>
       <Header course={course} />
       <Content course={course} />
       <Total course={course} />
+
+      <div>{counter}</div>
     </div>
   )
 }
