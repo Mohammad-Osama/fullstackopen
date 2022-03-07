@@ -71,9 +71,13 @@ const App = () => {
           <p> neutral {neutral}  </p>
           <p> bad  {bad}  </p>
           <br></br>
-          <Statistics value={total()} text="total" />
-          <Statistics value={average(total())} text="average" /> 
-          <Statistics value={positive(total())} text="positive" />  
+          {!total() & !average(total()) & !positive(total())
+             ? <p>no feedback given</p>
+             : [ <Statistics value={total()} text="total" /> ,
+                <Statistics value={average(total())} text="average" /> ,
+                <Statistics value={positive(total())} text="positive" /> ] 
+                                }
+          
           
         </div>
 
