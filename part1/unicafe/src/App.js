@@ -67,9 +67,9 @@ const App = () => {
           <h1>Statistics</h1>
         </div>
         <div>
-          <p> good {good}  </p>
-          <p> neutral {neutral}  </p>
-          <p> bad  {bad}  </p>
+        <Statistics value={good} text="good" />
+        <Statistics value={neutral} text="neutral" />
+        <Statistics value={bad} text="bad" />
           <br></br>
           {!total() & !average(total()) & !positive(total())
              ? <p>no feedback given</p>
