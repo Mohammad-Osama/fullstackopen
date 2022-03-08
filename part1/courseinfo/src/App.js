@@ -70,12 +70,7 @@ const App = () => {
       </p>)
   }
 
-  const [ counter, setCounter ] = useState(0)
-
-  setTimeout(
-    () => setCounter(counter + 1),
-    44444
-  )
+ 
 
   return (
     <div>
@@ -83,7 +78,6 @@ const App = () => {
       <Content course={course} />
       <Total course={course} />
 
-      <div>{counter}</div>
     </div>
   )
 }
