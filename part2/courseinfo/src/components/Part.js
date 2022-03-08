@@ -2,8 +2,12 @@ import React from 'react'
 
 export default function Part(props) {
     return (
-        <p>
-         {props.name} {props.exercises}
-        </p>
+        <>
+        {props.total
+         ? <strong> total of {props.total} exercises  </strong>
+         :<p>{props.name} {props.exercises} </p>
+        }
+        </>
+        
     )
 }
