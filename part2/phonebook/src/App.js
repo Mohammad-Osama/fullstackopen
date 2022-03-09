@@ -2,36 +2,49 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas' , 
+      number : "000=9999999" }
   ]) 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewnumber] = useState('')
 
   const handleSubmit=(e)=>{
+  //  console.log("submit target value name " , e.target.name.value)
+   // console.log("submit target value number " , e.target.number.value)
     e.preventDefault()
-    const typedname={
-      name :newName
+    const typedContact={
+      name :newName,
+      number :newNumber 
     }
     const existingNames = persons.map((person)=>{
      return person.name
     })
-   console.log("existingNames", existingNames)
+   // console.log("existingNames", existingNames)
 
    if (existingNames.includes(newName)) {
     alert(`${newName} is already added to the phonebook`)
     return
   }
        
-          setPersons(persons.concat(typedname))
-          setNewName('')
-    
+  setPersons(persons.concat(typedContact))
+  setNewName('')
+  setNewnumber('')
+
 
   }
 
-  const handleChange=(e)=>{
-    console.log("input target.value" ,  e.target.value)
+  const handleChangeName=(e)=>{
+   // console.log("input target.value" ,  e.target.value)
     setNewName(e.target.value)
 
   }
+
+  const handleChangeNumber=(e)=>{
+    // console.log("input target.value number" ,  e.target.value)
+    // console.log("newNumber" ,  newNumber)
+     setNewnumber(e.target.value)
+ 
+   }
 
   return (
     <div>
@@ -39,9 +52,16 @@ const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div>
-          name: <input
-                      value={newName}
-                      onChange={handleChange}
+          name: <input   name ="name"
+                         value={newName}
+                         onChange={handleChangeName}
+                     />
+        </div>
+        <div>
+          number: <input  name ="number"
+                          type="number"
+                          value={newNumber}
+                          onChange={handleChangeNumber}
                       />
         </div>
         <div>
@@ -52,9 +72,10 @@ const App = () => {
 
       <h2>Numbers</h2>
       {persons.map((person)=>(
-        <p key={person.name}>
-                   {person.name}</p>
-
+        <div key={person.name}>
+          <p > name :{person.name}  ,  number :{person.number}</p>
+          
+         </div>
       ))}
     </div>
   )
