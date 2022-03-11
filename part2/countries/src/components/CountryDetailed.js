@@ -17,7 +17,9 @@ export default function CountryDetailed(props) {
                 <h3>languages  </h3>
                 <ul>
                     {Object.values(props.details.languages).map((x) => {
-                        return <li key = {x}>{x}</li>
+                        return <li key = {x}>
+                                    {x}
+                                </li>
 
                     })}
                 </ul>

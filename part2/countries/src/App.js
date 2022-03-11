@@ -8,10 +8,16 @@ function App() {
 
   const [countires, setCountries] = useState([])
   const [search, setSearch] = useState('')
-  // const [searchResults, setSearchResults] = useState([])
+   // const [searchResults, setSearchResults] = useState([])
 
   const handleChange = (e) => {
     setSearch(e.target.value)
+  
+     /* const searchedCountries = countires?.filter(country =>
+    country.name.common.toLowerCase().includes(search.toLowerCase()))
+
+   setSearchResults(searchedCountries) */
+
 
   }
 
@@ -59,7 +65,7 @@ function App() {
                 ? <p>no countires found  </p>
                 : searchResults.map((c) => {
                   return <Country key={c.name.official}
-                    name={c.name.official}
+                    details={c}
                   />
                 })
           ]
