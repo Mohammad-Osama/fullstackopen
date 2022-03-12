@@ -81,6 +81,42 @@ const App = () => {
     setSearchResults(searchedNames)
   }
 
+
+  const handleDelete = (id)=>{
+    let confirmDelete = window.confirm("Confirm delete ?")
+    if (confirmDelete)
+     {    
+      api.deletePerson(id)
+      .then((status) => {
+        if (status === 200)
+              api.getAll()
+              .then( (data)=>{
+                setPersons(data)
+              })
+        
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("This contact is already deleted");
+      });
+
+     /*  .then(
+        api.getAll()
+        .then( (data)=>{
+          console.log("response all " , data)
+          setPersons(data)
+  
+        })
+
+      )  */
+
+    }
+
+    
+
+
+  }
+
   useEffect(() => {
 
     api.getAll()
@@ -134,9 +170,11 @@ const App = () => {
 
       <h2>Numbers</h2>
       {persons.map((person) => (
-        <Person   key={person.name}
+        <Person   id = {person.id}
+                  key={person.id}
                   name={person.name}
                   number={person.number}
+                  handleDelete={handleDelete}
                             />
       ))}
     </div>
