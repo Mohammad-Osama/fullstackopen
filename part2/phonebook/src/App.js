@@ -1,4 +1,4 @@
-import { useState ,useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import Form from './components/Form'
 import Person from './components/Person'
 import Search from './components/Search'
@@ -22,25 +22,38 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-    const existingNames = persons.map((person) => {
+
+    // const existingName = [...persons]
+    const existingName = persons.map((person) => {
       return person.name
     })
-    // console.log("existingNames", existingNames)
+    console.log("existingName", existingName)
 
-    if (existingNames.includes(newName)) {
-      alert(`${newName} is already added to the phonebook`)
-      return
+
+    if (existingName.includes(newName)) {
+      let confirmUpdate = window.confirm(`${newName} is already added to the phonebook , update number? `)
+       if (confirmUpdate) {
+         const filtered = persons.filter(x =>
+          x.name === newName
+                   )
+            api.updatePerson(filtered[0].id, typedContact)
+                setNewName('')
+              setNewnumber('')
+             }
+
+
     }
-   
+    else {
+      api.addPerson(typedContact)
+        .then((res) => {
+          setPersons(persons.concat(res))
+          setNewName('')
+          setNewnumber('')
 
-    api.addPerson(typedContact)
-    .then((res)=>{
-      setPersons(persons.concat(res))
-      setNewName('')
-      setNewnumber('')
+        })
 
+    }
 
-    })
 
 
     /* axios
@@ -51,8 +64,8 @@ const App = () => {
      setNewnumber('')
 
     }) */
-    
-    
+
+
 
   }
 
@@ -70,49 +83,48 @@ const App = () => {
   }
 
   const handleSearchName = (e) => {
-   // console.log("e.target.value", e.target.value)
-   // setSearchResults('')
+    // console.log("e.target.value", e.target.value)
+    // setSearchResults('')
     setSearchName(e.target.value)
 
     const searchedNames = persons.filter(person =>
       person.name.toLowerCase().includes(searchName.toLowerCase()))
 
-   // console.log("searchedNames", searchedNames)
+    // console.log("searchedNames", searchedNames)
     setSearchResults(searchedNames)
   }
 
 
-  const handleDelete = (id)=>{
+  const handleDelete = (id) => {
     let confirmDelete = window.confirm("Confirm delete ?")
-    if (confirmDelete)
-     {    
+    if (confirmDelete) {
       api.deletePerson(id)
-      .then((status) => {
-        if (status === 200)
-              api.getAll()
-              .then( (data)=>{
+        .then((status) => {
+          if (status === 200)
+            api.getAll()
+              .then((data) => {
                 setPersons(data)
               })
-        
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("This contact is already deleted");
-      });
 
-     /*  .then(
-        api.getAll()
-        .then( (data)=>{
-          console.log("response all " , data)
-          setPersons(data)
-  
         })
+        .catch((error) => {
+          console.error(error);
+          alert("This contact is already deleted");
+        });
 
-      )  */
+      /*  .then(
+         api.getAll()
+         .then( (data)=>{
+           console.log("response all " , data)
+           setPersons(data)
+   
+         })
+ 
+       )  */
 
     }
 
-    
+
 
 
   }
@@ -120,12 +132,11 @@ const App = () => {
   useEffect(() => {
 
     api.getAll()
-      .then( (data)=>{
-        console.log("response all " , data)
+      .then((data) => {
+        console.log("response all ", data)
         setPersons(data)
-
       })
-    
+
     /* axios
     .get('http://localhost:3001/persons')
     .then( (res)=>{
@@ -133,27 +144,27 @@ const App = () => {
         setPersons(res.data)
     }  
     ) */
-    
+
   }, [])
 
   return (
     <div>
       <h2>Phonebook</h2>
 
-      <Form  handleSubmit={handleSubmit}  
-              newName={newName}
-              handleChangeName={handleChangeName}
+      <Form handleSubmit={handleSubmit}
+        newName={newName}
+        handleChangeName={handleChangeName}
 
-              newNumber={newNumber}
-              handleChangeNumber={handleChangeNumber}
-                                    />
+        newNumber={newNumber}
+        handleChangeNumber={handleChangeNumber}
+      />
 
       <div>
-       
-          <Search
-            value={searchName}
-            onChange={handleSearchName}
-          />
+
+        <Search
+          value={searchName}
+          onChange={handleSearchName}
+        />
 
         <div>
           {searchName === ''
@@ -170,12 +181,12 @@ const App = () => {
 
       <h2>Numbers</h2>
       {persons.map((person) => (
-        <Person   id = {person.id}
-                  key={person.id}
-                  name={person.name}
-                  number={person.number}
-                  handleDelete={handleDelete}
-                            />
+        <Person id={person.id}
+          key={person.id}
+          name={person.name}
+          number={person.number}
+          handleDelete={handleDelete}
+        />
       ))}
     </div>
   )

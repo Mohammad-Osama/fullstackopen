@@ -20,3 +20,10 @@ export const deletePerson = (id) => {
     return request.then(response => response.status)
 
 }
+
+export const updatePerson = (id,data) => {
+
+    const request = axios.put(`${url}/${id}`, data)
+    return request.then(response => response.status)
+
+}
