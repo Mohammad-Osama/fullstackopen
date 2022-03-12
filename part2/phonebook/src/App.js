@@ -3,6 +3,7 @@ import Form from './components/Form'
 import Person from './components/Person'
 import Search from './components/Search'
 import axios from 'axios'
+import * as api from './services/api'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -30,10 +31,28 @@ const App = () => {
       alert(`${newName} is already added to the phonebook`)
       return
     }
+   
 
-    setPersons(persons.concat(typedContact))
-    setNewName('')
-    setNewnumber('')
+    api.addPerson(typedContact)
+    .then((res)=>{
+      setPersons(persons.concat(res))
+      setNewName('')
+      setNewnumber('')
+
+
+    })
+
+
+    /* axios
+    .post('http://localhost:3001/persons' , typedContact)
+    .then ((res)=>{
+      setPersons(persons.concat(res.data))
+      setNewName('')
+     setNewnumber('')
+
+    }) */
+    
+    
 
   }
 
@@ -63,14 +82,21 @@ const App = () => {
   }
 
   useEffect(() => {
+
+    api.getAll()
+      .then( (data)=>{
+        console.log("response all " , data)
+        setPersons(data)
+
+      })
     
-    axios
+    /* axios
     .get('http://localhost:3001/persons')
     .then( (res)=>{
         console.log("response" , res)
         setPersons(res.data)
     }  
-    )
+    ) */
     
   }, [])
 
