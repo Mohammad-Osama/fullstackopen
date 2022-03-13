@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Form from './components/Form'
 import Person from './components/Person'
 import Search from './components/Search'
+import Notification from './components/Notification'
 import axios from 'axios'
 import * as api from './services/api'
 
@@ -13,6 +14,7 @@ const App = () => {
   const [newNumber, setNewnumber] = useState('')
   const [searchName, setSearchName] = useState('')
   const [searchResults, setSearchResults] = useState('')
+  const [notification, setNotification] = useState(null);
 
   const handleSubmit = (e) => {
     //  console.log("submit target value name " , e.target.name.value)
@@ -39,6 +41,10 @@ const App = () => {
             api.updatePerson(filtered[0].id, typedContact)
                 setNewName('')
               setNewnumber('')
+              setNotification(`${newName}was altered ` )
+              setTimeout(() => {
+                setNotification(null)
+              }, 5000)
              }
 
 
@@ -49,6 +55,10 @@ const App = () => {
           setPersons(persons.concat(res))
           setNewName('')
           setNewnumber('')
+          setNotification(`${newName}was added  ` )
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
 
         })
 
@@ -150,7 +160,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-
+      <Notification  message={notification} />
       <Form handleSubmit={handleSubmit}
         newName={newName}
         handleChangeName={handleChangeName}
