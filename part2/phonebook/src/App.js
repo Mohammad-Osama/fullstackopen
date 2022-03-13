@@ -31,21 +31,29 @@ const App = () => {
     })
     console.log("existingName", existingName)
 
+    const clearInput = () => {
+      setNewName('')
+      setNewnumber('')
+    }
+
+    const notify = (name, message) => {
+      setNotification(`${name} ${message} `)
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
+    }
+
 
     if (existingName.includes(newName)) {
       let confirmUpdate = window.confirm(`${newName} is already added to the phonebook , update number? `)
-       if (confirmUpdate) {
-         const filtered = persons.filter(x =>
+      if (confirmUpdate) {
+        const filtered = persons.filter(x =>
           x.name === newName
-                   )
-            api.updatePerson(filtered[0].id, typedContact)
-                setNewName('')
-              setNewnumber('')
-              setNotification(`${newName}was altered ` )
-              setTimeout(() => {
-                setNotification(null)
-              }, 5000)
-             }
+        )
+        api.updatePerson(filtered[0].id, typedContact)
+        clearInput()
+        notify(newName, "was altered")
+      }
 
 
     }
@@ -53,13 +61,8 @@ const App = () => {
       api.addPerson(typedContact)
         .then((res) => {
           setPersons(persons.concat(res))
-          setNewName('')
-          setNewnumber('')
-          setNotification(`${newName}was added  ` )
-          setTimeout(() => {
-            setNotification(null)
-          }, 5000)
-
+          clearInput()
+          notify(newName, "was added")
         })
 
     }
@@ -160,7 +163,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification  message={notification} />
+      <Notification message={notification} />
       <Form handleSubmit={handleSubmit}
         newName={newName}
         handleChangeName={handleChangeName}
